@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Session Words </title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    </head>
+    <body>
+        <div id='add'>
+            <h2>Add a new word</h2>
+            <form action='/session_words_app/input' method='post'>
+                {% csrf_token %}
+                <input type='text' name='word' id='word'><br>
+                <h4>Choose color</h4>
+                <input type='radio' name='color' value='red'>Red<br>
+                <input type='radio' name='color' value='green'>Green<br>
+                <input type='radio' name='color' value='blue'>Blue<br><br>
+                <input type='checkbox' name='bigfonts' value='bigfonts'>show in BIG fonts!<br>
+                <input type='submit' value="Add to Session">
+            </form>
+        </div>
+        <div id='session'>
+            <form action='/session_words_app/clear' method='post'>
+                {% csrf_token %}
+                <input type="submit" value='Clear Session'>
+            </form>
+            {% for elem in request.session.fullsession %}
+                <p><a class='{{elem.class}}'>{{elem.word}}</a> - added on {{elem.created_at}}</p>
+            {% endfor %}
+        </div>
+    </body>
+</html>
